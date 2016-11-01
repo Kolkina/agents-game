@@ -166,10 +166,16 @@ public class AgentMovement : MonoBehaviour {
 		{
 			for(int i = 0; i < 5; i++)
 			{
-				RaycastHit2D hit = Physics2D.Raycast(new Vector2(	transform.position.x - 1f + (i*2f)/5,transform.position.y),
-																	-Vector2.up, 1.2f, ~playerMask);
+				float xoffset = 0f;
+				if(i == 0) xoffset = 0.1f;
+				if(i == 4) xoffset = -0.1f;
+				Vector2 pos = new Vector2(	transform.position.x - 1f + (i*2f)/5 + xoffset,
+											transform.position.y - 1.01f);
+				RaycastHit2D hit = Physics2D.Raycast(pos,-Vector2.up, 0.2f, ~playerMask);
 				if(hit.collider != null)
 				{
+					//Debug.Log(hit.collider.gameObject.name);
+					//Debug.DrawLine(pos,pos-Vector2.up*0.2f,Color.red,3f);
 					hasJumped = false;
 					break;
 				}

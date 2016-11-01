@@ -4,5 +4,6 @@ using System.Collections;
 public abstract class Action : MonoBehaviour {
 
 	abstract public void Activate();
+	abstract public void Deactivate();
 	
 }

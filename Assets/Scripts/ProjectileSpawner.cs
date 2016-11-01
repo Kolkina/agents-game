@@ -8,7 +8,8 @@ public class ProjectileSpawner : MonoBehaviour {
 	public enum Direction {Left,Right,Up,Down};
 
 	private float timeSinceFire = 0f;
-	private float frequency = 0.5f;
+	[Range(0.1f,10.0f)]
+	public float frequency = 0.5f;
 	private Vector3 fireballDir = Vector3.up;
 	
 	void Start () {
@@ -16,6 +17,15 @@ public class ProjectileSpawner : MonoBehaviour {
 		{
 			case Direction.Left:
 				fireballDir = -Vector3.right;
+				break;
+			case Direction.Right:
+				fireballDir = Vector3.right;
+				break;
+			case Direction.Up:
+				fireballDir = Vector3.up;
+				break;
+			case Direction.Down:
+				fireballDir = -Vector3.up;
 				break;
 		}
 	}
@@ -25,7 +35,8 @@ public class ProjectileSpawner : MonoBehaviour {
 	
 		if(timeSinceFire > frequency)
 		{
-			GameObject fb = Instantiate (projectile, transform.position, Quaternion.identity) as GameObject;
+			Vector3 spawnPos = new Vector3(transform.position.x + fireballDir.x,transform.position.y + fireballDir.y,transform.position.z);
+			GameObject fb = Instantiate (projectile, spawnPos, Quaternion.identity) as GameObject;
 			fb.GetComponent<Fireball>().SetDirection(fireballDir);
 			timeSinceFire = 0;
 		}
