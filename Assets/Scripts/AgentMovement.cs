@@ -18,10 +18,13 @@ public class AgentMovement : MonoBehaviour {
 	
 	private bool climbing = false;
 	
-	private int playerMask = 1 << 8;
+	//private int playerMask = 1 << 8;
 	
 	private bool hasJumped = false;
-	protected bool active = false;
+	[HideInInspector]
+	public bool active = false;
+	[HideInInspector]
+	public Vector3 facing = Vector3.right;
 	public KeyCode agentNumber = KeyCode.Alpha1;
 	
 	// Call this to set the active status of the script.
@@ -98,12 +101,14 @@ public class AgentMovement : MonoBehaviour {
 		{
 			_rigidbody.velocity = new Vector2(_rigidbody.velocity.x + walkSpeed * Time.deltaTime,_rigidbody.velocity.y);
 			_faceAnimation.SetBool("isWalking",true);
+			facing = Vector3.right;
 			_eyes.localPosition = new Vector3(0.4f,0.25f,-0.1f);
 		}		
 		else if(Input.GetKey(KeyCode.A) && Mathf.Abs(_rigidbody.velocity.x) < maxSpeed)
 		{
 			_rigidbody.velocity = new Vector2(_rigidbody.velocity.x - walkSpeed * Time.deltaTime,_rigidbody.velocity.y);
 			_faceAnimation.SetBool("isWalking",true);
+			facing = -Vector3.right;
 			_eyes.localPosition = new Vector3(-0.4f,0.25f,-0.1f);
 		}
 		else if(Mathf.Abs(_rigidbody.velocity.x) > 0.1)
@@ -120,7 +125,7 @@ public class AgentMovement : MonoBehaviour {
 		
 	}
 	
-	void UpdateCamera()
+	public void UpdateCamera()
 	{
 		if( timeSinceUpdate > updateInterval)
 		{
@@ -171,11 +176,9 @@ public class AgentMovement : MonoBehaviour {
 				if(i == 4) xoffset = -0.1f;
 				Vector2 pos = new Vector2(	transform.position.x - 1f + (i*2f)/5 + xoffset,
 											transform.position.y - 1.01f);
-				RaycastHit2D hit = Physics2D.Raycast(pos,-Vector2.up, 0.2f, ~playerMask);
+				RaycastHit2D hit = Physics2D.Raycast(pos,-Vector2.up, 0.2f);
 				if(hit.collider != null)
 				{
-					//Debug.Log(hit.collider.gameObject.name);
-					//Debug.DrawLine(pos,pos-Vector2.up*0.2f,Color.red,3f);
 					hasJumped = false;
 					break;
 				}

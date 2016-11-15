@@ -8,7 +8,7 @@ public class Agent1Power : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(Input.GetKeyDown(KeyCode.Space) && GetComponent<AgentMovement>().active == true)
 		{
 			GetComponent<AgentMovement>().enabled = disabled;
 			GetComponent<SpriteRenderer>().enabled = disabled;
@@ -28,5 +28,10 @@ public class Agent1Power : MonoBehaviour {
 			}
 			disabled = !disabled;
 		}
+		if(Input.GetKeyDown(KeyCode.Alpha1) && GetComponent<AgentMovement>().enabled == false)
+			GetComponent<AgentMovement>().SetActiveStatus(true);
+		
+		if(GetComponent<AgentMovement>().enabled == false && GetComponent<AgentMovement>().active == true)
+			GetComponent<AgentMovement>().UpdateCamera();
 	}
 }
