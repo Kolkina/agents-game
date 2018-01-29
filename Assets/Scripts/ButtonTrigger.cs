@@ -7,12 +7,12 @@ public class ButtonTrigger : MonoBehaviour {
 	public KeyCode triggerAgent = KeyCode.Alpha0;
 	public bool hold = false;
 	public bool retrigger = false;
+	public bool startOff = false;
 	
 	private int onButton = 0;
 	private float displace = 0f;
 	private BoxCollider2D _collider;
 	private float timeSinceTrigger = 0f;
-	private bool lastTrigger = false;
 
 	// Use this for initialization
 	void Start () {
@@ -40,12 +40,12 @@ public class ButtonTrigger : MonoBehaviour {
 	
 		if(triggerAgent == KeyCode.Alpha0 || (col.gameObject.GetComponent<AgentMovement>() != null && triggerAgent == col.gameObject.GetComponent<AgentMovement>().agentNumber))
 		{
-			if(retrigger && lastTrigger) {
-				lastTrigger = false;
-				triggerEffect.Deactivate();
+			if(retrigger && startOff) {
+				startOff = false;
+				triggerEffect.Activate();
 			}
 			else {
-				lastTrigger = true;
+				startOff = true;
 				triggerEffect.Activate();
 			}
 			
@@ -62,7 +62,7 @@ public class ButtonTrigger : MonoBehaviour {
 			onButton--;
 			if(onButton == 0)
 			{
-				triggerEffect.Deactivate();
+				triggerEffect.Activate();
 				transform.Translate(Vector3.up * displace);
 				_collider.offset = Vector2.zero;
 			}

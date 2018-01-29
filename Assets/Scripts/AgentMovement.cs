@@ -24,7 +24,7 @@ public class AgentMovement : MonoBehaviour {
 	[HideInInspector]
 	public bool active = false;
 	[HideInInspector]
-	public Vector3 facing = Vector3.right;
+	public Vector3 facing = -Vector3.right;
 	public KeyCode agentNumber = KeyCode.Alpha1;
 	
 	// Call this to set the active status of the script.
@@ -65,6 +65,9 @@ public class AgentMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+		if(Input.GetKeyDown(KeyCode.Escape))
+			Application.Quit();
 		
 		if(Input.GetKeyDown(agentNumber))
 			SetActiveStatus(true);
